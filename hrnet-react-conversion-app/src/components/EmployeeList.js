@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
+import { useReactTable } from '@tanstack/react-table';
+
 import Modal from 'react-custom-modal-khanh';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const table = useReactTable(options);
 
     useEffect(() => {
         const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];

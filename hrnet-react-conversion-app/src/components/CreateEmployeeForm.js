@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+// import "react-datepicker/dist/react-datepicker.css";
 import Dropdown from 'react-dropdown';
-import 'react-datepicker/react-datepicker.css';
-import 'react-dropdown/style.css';
+// import 'react-dropdown/style.css';
 
 const CreateEmployeeForm = () => {
     const [firstName, setFirstName] = useState('');
@@ -33,7 +33,7 @@ const CreateEmployeeForm = () => {
 
             <label htmlFor="department">Department</label>
             <Dropdown
-                id="department"
+                className='department'
                 options={['HR', 'Finance', 'Marketing']}
                 value={selectedOption}
                 onChange={(option) => setSelectedOption(option)}

@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { formSlice } from "./reducers/formReducer";
+import employeeReducer from '../reducers/employeeReducer';
 
 const store = configureStore({
   reducer: {
-    form: formSlice.reducer,
+    employees: employeeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

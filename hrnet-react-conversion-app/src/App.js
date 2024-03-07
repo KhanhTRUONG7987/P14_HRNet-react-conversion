@@ -1,15 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CreateEmployeeForm from './components/CreateEmployeeForm';
 import EmployeeList from './components/EmployeeList';
+import './styles/app.css'
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact component={CreateEmployeeForm} />
-        <Route path="/employee-list" component={EmployeeList} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<CreateEmployeeForm />} />
+        <Route path="/employee-list" element={<EmployeeList />} />
+      </Routes>
     </Router>
   );
 }
