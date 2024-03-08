@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
-// import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css'; 
 import Dropdown from 'react-dropdown';
-// import 'react-dropdown/style.css';
+import 'react-dropdown/style.css';
 
 const CreateEmployeeForm = () => {
     const [firstName, setFirstName] = useState('');
@@ -12,7 +12,7 @@ const CreateEmployeeForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // handle form submission
+        // handle submission
     };
 
     return (
@@ -24,12 +24,13 @@ const CreateEmployeeForm = () => {
             <input type="text" id="last-name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
 
             <label htmlFor="start-date">Start Date</label>
-            <DatePicker
-                id="start-date"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                dateFormat="yyyy-MM-dd"
-            />
+            <div className="date-picker-container">
+                <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat="yyyy-MM-dd"
+                />
+            </div>
 
             <label htmlFor="department">Department</label>
             <Dropdown
