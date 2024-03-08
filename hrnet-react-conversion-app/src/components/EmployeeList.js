@@ -1,23 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import Modal from 'react-custom-modal-khanh';
+// import ModalTrigger from 'react-modal-kt/lib/ModalTrigger';
+// import { useModal } from 'react-modal-kt/lib/ModalContext';
+// import 'react-modal-kt/lib/ModalManager/ModalManager.css';
+// import 'react-modal-kt/lib/Modal/Modal.css';
+// import 'react-modal-kt/lib/Overlay/Overlay.css';
+// import 'react-modal-kt/lib/ModalTrigger/ModalTrigger.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useTable } from 'react-table';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [startDate, setStartDate] = useState(new Date()); // state for datetime picker
 
+    //const { closeModal } = useModal();
+
+    const closeModalOnEscape = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    };
+
     useEffect(() => {
-        const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
-        setEmployees(storedEmployees);
+        document.addEventListener('keyup', closeModalOnEscape);
+
+        return () => {
+            document.removeEventListener('keyup', closeModalOnEscape);
+        };
     }, []);
 
     // handle saving the employee
     const saveEmployee = () => {
         // ... logic
-        setIsModalOpen(false); // close modal after saving
+        closeModal(); // close modal after saving
     };
 
     // react-table configuration
@@ -25,7 +42,13 @@ const EmployeeList = () => {
         () => [
             { Header: 'First Name', accessor: 'firstName' },
             { Header: 'Last Name', accessor: 'lastName' },
-            // other columns...
+            { Header: 'Start Date', accessor: 'startDate' },
+            { Header: 'Department', accessor: 'department' },
+            { Header: 'Date of Birth', accessor: 'dateOfBirth' },
+            { Header: 'Street', accessor: 'street' },
+            { Header: 'City', accessor: 'city' },
+            { Header: 'State', accessor: 'state' },
+            { Header: 'Zip Code', accessor: 'zipCode' },
         ],
         []
     );
@@ -59,22 +82,35 @@ const EmployeeList = () => {
                     })}
                 </tbody>
             </table>
-            <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
-            <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)}>
-                <h2>Create Employee</h2>
-                <form onSubmit={saveEmployee}>
-                    {/* form inputs */}
-                    <label htmlFor="start-date">Start Date</label>
-                    <DatePicker
-                        selected={startDate}
-                        onChange={date => setStartDate(date)}
-                        dateFormat="yyyy-MM-dd"
-                    />
-                    {/* other inputs... */}
-                    <button type="submit">Save</button>
-                    <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-                </form>
-            </Modal>
+            {/* <ModalTrigger
+                closeText="Cancel"
+                closeClass="custom-close-class"
+                closeExisting={true}
+                escapeClose={true}
+                clickClose={true}
+                modalClass="custom-modal"
+                fadeDuration={300}
+                fadeDelay={0.5}
+                content={
+                    <form onSubmit={saveEmployee}>
+                        <h2>Create Employee</h2>
+                        <label htmlFor="start-date">Start Date</label>
+                        <DatePicker
+                            selected={startDate}
+                            onChange={date => setStartDate(date)}
+                            dateFormat="yyyy-MM-dd"
+                        />
+                        <input type="text" name="department" placeholder="Department" />
+                        <input type="text" name="dateOfBirth" placeholder="Date of Birth" />
+                        <input type="text" name="street" placeholder="Street" />
+                        <input type="text" name="city" placeholder="City" />
+                        <input type="text" name="state" placeholder="State" />
+                        <input type="text" name="zipCode" placeholder="Zip Code" />
+                        <button type="submit">Save</button>
+                        <button onClick={closeModal}>Cancel</button>
+                    </form>
+                }
+            /> */}
             <a href="/">Home</a>
         </div>
     );

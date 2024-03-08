@@ -15,10 +15,10 @@
     "@tanstack/react-table": "^8.13.2",
     "classnames": "^2.5.1",
     "react": "^18.2.0",
-    "react-custom-modal-khanh": "^1.0.0",
     "react-datepicker": "^6.2.0",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",
+    "react-modal-kt": "^1.0.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.2",
     "react-table": "^7.8.0",
@@ -33,7 +33,7 @@
     "babel-loader": "^8.3.0",
     "css-loader": "^6.10.0",
     "style-loader": "^3.3.4",
-    "webpack": "^5.68.0",
+    "webpack": "^5.90.3",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.7.3"
   }
