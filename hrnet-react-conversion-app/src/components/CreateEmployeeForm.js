@@ -8,7 +8,7 @@ const CreateEmployeeForm = ({ setEmployees }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [startDate, setStartDate] = useState(new Date());
-    const [selectedDepartment, setSelectedDepartment] = useState(null);
+    const [selectedDepartment, setSelectedDepartment] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
@@ -20,8 +20,8 @@ const CreateEmployeeForm = ({ setEmployees }) => {
         const newEmployee = {
             firstName: firstName,
             lastName: lastName,
-            startDate: startDate,
-            department: selectedDepartment.value,
+            startDate: startDate.toISOString(), // convert to ISO string format
+            department: selectedDepartment,
             dateOfBirth: dateOfBirth,
             street: street,
             city: city,
@@ -32,48 +32,51 @@ const CreateEmployeeForm = ({ setEmployees }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="first-name">First Name</label>
-            <input type="text" id="first-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        <div className="container">
+            <h2>Create Employee</h2>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="first-name">First Name</label>
+                <input type="text" id="first-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 
-            <label htmlFor="last-name">Last Name</label>
-            <input type="text" id="last-name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                <label htmlFor="last-name">Last Name</label>
+                <input type="text" id="last-name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
 
-            <label htmlFor="start-date">Start Date</label>
-            <div className="date-picker-container">
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="yyyy-MM-dd"
+                <label htmlFor="start-date">Start Date</label>
+                <div className="date-picker-container">
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                    />
+                </div>
+
+                <label htmlFor="department">Department</label>
+                <Dropdown
+                    className='department'
+                    options={['HR', 'Finance', 'Marketing']}
+                    value={selectedDepartment}
+                    onChange={(option) => setSelectedDepartment(option.value)} // Update selectedDepartment with option value
+                    placeholder="Select an option"
                 />
-            </div>
 
-            <label htmlFor="department">Department</label>
-            <Dropdown
-                className='department'
-                options={['HR', 'Finance', 'Marketing']}
-                value={selectedDepartment}
-                onChange={(option) => setSelectedDepartment(option)}
-                placeholder="Select an option"
-            />
+                <label htmlFor="date-of-birth">Date of Birth</label>
+                <input type="text" id="date-of-birth" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
 
-            <label htmlFor="date-of-birth">Date of Birth</label>
-            <input type="text" id="date-of-birth" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
+                <label htmlFor="street">Street</label>
+                <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)} />
 
-            <label htmlFor="street">Street</label>
-            <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)} />
+                <label htmlFor="city">City</label>
+                <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
 
-            <label htmlFor="city">City</label>
-            <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
+                <label htmlFor="state">State</label>
+                <input type="text" id="state" value={state} onChange={(e) => setState(e.target.value)} />
 
-            <label htmlFor="state">State</label>
-            <input type="text" id="state" value={state} onChange={(e) => setState(e.target.value)} />
+                <label htmlFor="zip-code">Zip Code</label>
+                <input type="text" id="zip-code" value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
 
-            <label htmlFor="zip-code">Zip Code</label>
-            <input type="text" id="zip-code" value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
-
-            <button type="submit">Save</button>
-        </form>
+                <button type="submit">Save</button>
+            </form>
+        </div>
     );
 }
 

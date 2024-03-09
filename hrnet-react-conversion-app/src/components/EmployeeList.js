@@ -7,12 +7,10 @@ import 'react-modal-kt/dist/lib/Overlay/Overlay.css';
 import 'react-modal-kt/dist/lib/ModalTrigger/ModalTrigger.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useTable } from 'react-table';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
-    const [startDate, setStartDate] = useState(new Date()); // state for datetime picker
-
+    const [startDate, setStartDate] = useState(new Date());
     const { closeModal } = useModal();
 
     const closeModalOnEscape = (event) => {
@@ -31,40 +29,55 @@ const EmployeeList = () => {
         };
     }, []);
 
+    useEffect(() => {
+        // fetch employees from local storage
+        const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
+        setEmployees(storedEmployees);
+    }, []);
+
     // handle saving the employee
-    const saveEmployee = () => {
-        // ... logic
-        closeModal(); // close modal after saving
+    const saveEmployee = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const newEmployee = {
+            id: Date.now(), // generate unique id for the employee
+            firstName: form.firstName.value,
+            lastName: form.lastName.value,
+            startDate: startDate.toISOString(),
+            department: form.department.value,
+            dateOfBirth: form.dateOfBirth.value,
+            street: form.street.value,
+            city: form.city.value,
+            state: form.state.value,
+            zipCode: form.zipCode.value
+        };
+
+        // update employees state with new employee
+        setEmployees(prevEmployees => [...prevEmployees, newEmployee]);
+
+        // update local storage with updated employees list
+        localStorage.setItem('employees', JSON.stringify([...employees, newEmployee]));
+
+        // close modal after saving
+        closeModal();
     };
-
-    // react-table configuration
-    const columns = React.useMemo(
-        () => [
-            { Header: 'First Name', accessor: 'firstName' },
-            { Header: 'Last Name', accessor: 'lastName' },
-            { Header: 'Start Date', accessor: 'startDate' },
-            { Header: 'Department', accessor: 'department' },
-            { Header: 'Date of Birth', accessor: 'dateOfBirth' },
-            { Header: 'Street', accessor: 'street' },
-            { Header: 'City', accessor: 'city' },
-            { Header: 'State', accessor: 'state' },
-            { Header: 'Zip Code', accessor: 'zipCode' },
-        ],
-        []
-    );
-
-    const tableInstance = useTable({ columns, data: employees }); // using the useTable hook
 
     return (
         <div className="container">
             <h2>Current Employees</h2>
-            {/* table rendering using react-table */}
+            {/* table displaying current employees */}
             <table>
                 <thead>
                     <tr>
-                        {columns.map(column => (
-                            <th key={column.accessor}>{column.Header}</th>
-                        ))}
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Start Date</th>
+                        <th>Department</th>
+                        <th>Date of Birth</th>
+                        <th>Street</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip Code</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +96,7 @@ const EmployeeList = () => {
                     ))}
                 </tbody>
             </table>
+            {/* modal for creating a new employee */}
             <ModalTrigger
                 closeText="Cancel"
                 closeClass="custom-close-class"
@@ -95,18 +109,39 @@ const EmployeeList = () => {
                 content={
                     <form onSubmit={saveEmployee}>
                         <h2>Create Employee</h2>
+                        <label htmlFor="first-name">First Name</label>
+                        <input type="text" id="first-name" name="firstName" required />
+                        
+                        <label htmlFor="last-name">Last Name</label>
+                        <input type="text" id="last-name" name="lastName" required />
+
                         <label htmlFor="start-date">Start Date</label>
-                        <DatePicker
-                            selected={startDate}
-                            onChange={date => setStartDate(date)}
-                            dateFormat="yyyy-MM-dd"
-                        />
-                        <input type="text" name="department" placeholder="Department" />
-                        <input type="text" name="dateOfBirth" placeholder="Date of Birth" />
-                        <input type="text" name="street" placeholder="Street" />
-                        <input type="text" name="city" placeholder="City" />
-                        <input type="text" name="state" placeholder="State" />
-                        <input type="text" name="zipCode" placeholder="Zip Code" />
+                        <div className="date-picker-container">
+                            <DatePicker
+                                selected={startDate}
+                                onChange={date => setStartDate(date)}
+                                dateFormat="yyyy-MM-dd"
+                            />
+                        </div>
+
+                        <label htmlFor="department">Department</label>
+                        <input type="text" id="department" name="department" required />
+
+                        <label htmlFor="date-of-birth">Date of Birth</label>
+                        <input type="text" id="date-of-birth" name="dateOfBirth" required />
+
+                        <label htmlFor="street">Street</label>
+                        <input type="text" id="street" name="street" required />
+
+                        <label htmlFor="city">City</label>
+                        <input type="text" id="city" name="city" required />
+
+                        <label htmlFor="state">State</label>
+                        <input type="text" id="state" name="state" required />
+
+                        <label htmlFor="zip-code">Zip Code</label>
+                        <input type="text" id="zip-code" name="zipCode" required />
+
                         <button type="submit">Save</button>
                         <button onClick={closeModal}>Cancel</button>
                     </form>
