@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-// import ModalTrigger from 'react-modal-kt/lib/ModalTrigger';
-// import { useModal } from 'react-modal-kt/lib/ModalContext';
-// import 'react-modal-kt/lib/ModalManager/ModalManager.css';
-// import 'react-modal-kt/lib/Modal/Modal.css';
-// import 'react-modal-kt/lib/Overlay/Overlay.css';
-// import 'react-modal-kt/lib/ModalTrigger/ModalTrigger.css';
+import ModalTrigger from 'react-modal-kt/dist/lib/ModalTrigger/ModalTrigger.js';
+import { useModal } from 'react-modal-kt/dist/lib/ModalContext/ModalContext.js';
+import 'react-modal-kt/dist/lib/ModalManager/ModalManager.css';
+import 'react-modal-kt/dist/lib/Modal/Modal.css';
+import 'react-modal-kt/dist/lib/Overlay/Overlay.css';
+import 'react-modal-kt/dist/lib/ModalTrigger/ModalTrigger.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useTable } from 'react-table';
@@ -13,7 +13,7 @@ const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
     const [startDate, setStartDate] = useState(new Date()); // state for datetime picker
 
-    //const { closeModal } = useModal();
+    const { closeModal } = useModal();
 
     const closeModalOnEscape = (event) => {
         event.preventDefault();
@@ -61,28 +61,29 @@ const EmployeeList = () => {
             {/* table rendering using react-table */}
             <table>
                 <thead>
-                    {tableInstance.headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                            ))}
-                        </tr>
-                    ))}
+                    <tr>
+                        {columns.map(column => (
+                            <th key={column.accessor}>{column.Header}</th>
+                        ))}
+                    </tr>
                 </thead>
                 <tbody>
-                    {tableInstance.rows.map(row => {
-                        tableInstance.prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => (
-                                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                ))}
-                            </tr>
-                        );
-                    })}
+                    {employees.map(employee => (
+                        <tr key={employee.id}>
+                            <td>{employee.firstName}</td>
+                            <td>{employee.lastName}</td>
+                            <td>{employee.startDate}</td>
+                            <td>{employee.department}</td>
+                            <td>{employee.dateOfBirth}</td>
+                            <td>{employee.street}</td>
+                            <td>{employee.city}</td>
+                            <td>{employee.state}</td>
+                            <td>{employee.zipCode}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
-            {/* <ModalTrigger
+            <ModalTrigger
                 closeText="Cancel"
                 closeClass="custom-close-class"
                 closeExisting={true}
@@ -110,7 +111,7 @@ const EmployeeList = () => {
                         <button onClick={closeModal}>Cancel</button>
                     </form>
                 }
-            /> */}
+            />
             <a href="/">Home</a>
         </div>
     );
