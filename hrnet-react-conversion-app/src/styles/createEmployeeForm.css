@@ -1,0 +1,59 @@
+@import './app.css';
+
+:root {
+    --overlay-color: #1b2102d2;
+    --primary-color: #6e870b; /* Button and overlay color */
+    --secondary-color: #93ad19; /* Button hover color */
+    --background-color: #ebf4c4; /* Modal background color */
+    --heading-color: var(--primary-color);
+}
+
+/* styles specific for CreateEmployeeForm */
+form {
+    border: 2px solid var(--primary-color); 
+    border-radius: 10px; 
+    padding: 30px; 
+    background-color: var(--background-color); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+  color: var(--heading-color); 
+}
+
+.form-field {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center; /* align label & input vertically */
+    width: 100%;
+}
+
+label {
+    width: 28%; 
+    margin-right: 20px; 
+}
+
+input[type="text"] {
+    flex: 1; /* input takes remaining width */
+}
+
+.button-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end; 
+    width: 100%;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}

@@ -11,5 +11,3 @@ rootContainer.render(
     <App />
   </Provider>
 );
-
-

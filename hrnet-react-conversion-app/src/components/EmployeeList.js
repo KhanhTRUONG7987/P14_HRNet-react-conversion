@@ -7,6 +7,7 @@ import 'react-modal-kt/dist/lib/Overlay/Overlay.css';
 import 'react-modal-kt/dist/lib/ModalTrigger/ModalTrigger.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import '../styles/employeeList.css';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
