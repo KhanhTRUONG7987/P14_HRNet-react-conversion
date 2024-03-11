@@ -19,6 +19,25 @@ form {
     align-items: center;
 }
 
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .form-row label {
+    text-align: left;
+    width: 170px; 
+    margin-right: 10px;
+  }
+  
+  .form-row input,
+  .form-row .date-picker,
+  .form-row .department {
+    flex: 1;
+  }
+  
+
 h2 {
   color: var(--heading-color); 
 }
