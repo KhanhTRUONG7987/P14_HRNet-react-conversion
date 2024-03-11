@@ -1,1 +1,110 @@
 @import './app.css';
+
+/* src/styles/employeeList.css */
+
+.container {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.container h2 {
+  margin-bottom: 20px;
+}
+
+.container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.container th, .container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.container th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.container tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.container tbody tr:hover {
+  background-color: #ddd;
+}
+
+.container button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.container button:hover {
+  background-color: #0056b3;
+}
+
+/* Modal styles */
+.custom-modal {
+    background-color: var(--overlay-color);
+}
+
+.modal {
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 30px;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px; 
+    height: 90vh; 
+    overflow-y: auto; /* Add vertical scrollbar if content exceeds max height */
+    cursor: default;
+}
+
+.custom-modal-content h2 {
+    color: var(--heading-color);
+}
+
+.custom-modal-content .form-field {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.custom-modal-content label {
+    width: 28%;
+    margin-right: 20px;
+}
+
+.custom-modal-content input[type="text"] {
+    flex: 1;
+}
+
+.custom-modal-content .button-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.custom-modal-content button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.custom-modal-content button:hover {
+    background-color: var(--secondary-color);
+}
