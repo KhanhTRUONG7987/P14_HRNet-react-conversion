@@ -1,17 +1,26 @@
+/* src/styles/employeeList.css */
+
 @import './app.css';
 
-/* src/styles/employeeList.css */
+:root {
+  --overlay-color: #dbe7b6; 
+  --primary-color: #8ab32b; 
+  --secondary-color: #a7c432; 
+  --background-color: #f3f9d2; 
+  --heading-color: #576708; 
+}
 
 .container {
   margin: 20px auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: var(--overlay-color);
 }
 
 .container h2 {
   margin-bottom: 20px;
+  color: var(--heading-color);
 }
 
 .container table {
@@ -21,26 +30,26 @@
 
 .container th, .container td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-color);
 }
 
 .container th {
-  background-color: #f2f2f2;
+  background-color: var(--overlay-color);
   font-weight: bold;
 }
 
 .container tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--background-color);
 }
 
 .container tbody tr:hover {
-  background-color: #ddd;
+  background-color: var(--secondary-color);
 }
 
 .container button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -48,7 +57,7 @@
 }
 
 .container button:hover {
-  background-color: #0056b3;
+  background-color: var(--secondary-color);
 }
 
 /* Modal styles */
@@ -64,9 +73,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 400px; 
-    height: 90vh; 
-    overflow-y: auto; /* Add vertical scrollbar if content exceeds max height */
+    width: 80%; 
+    max-width: 600px; 
+    height: auto;
+    max-height: 90vh; 
+    overflow-y: auto; 
     cursor: default;
 }
 
@@ -84,6 +95,7 @@
 .custom-modal-content label {
     width: 28%;
     margin-right: 20px;
+    color: var(--primary-color);
 }
 
 .custom-modal-content input[type="text"] {

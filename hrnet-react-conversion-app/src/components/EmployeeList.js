@@ -103,7 +103,6 @@ const EmployeeList = () => {
           modalClass="custom-modal"
           fadeDuration={300}
           fadeDelay={0.5}
-          clickClose={false}
           content={<CreateEmployeeForm saveEmployee={saveEmployee} closeModal={closeModal} />}
         >
           <button>Create Employee</button>
