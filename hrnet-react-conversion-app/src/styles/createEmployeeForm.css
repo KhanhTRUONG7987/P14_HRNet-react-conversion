@@ -1,11 +1,11 @@
 @import './app.css';
 
 :root {
-    --overlay-color: #1b2102d2;
-    --primary-color: #6e870b; /* Button and overlay color */
-    --secondary-color: #93ad19; /* Button hover color */
-    --background-color: #ebf4c4; /* Modal background color */
-    --heading-color: var(--primary-color);
+  --overlay-color: #1b2102d2;
+  --primary-color: #6e870b; /* Button and overlay color */
+  --secondary-color: #93ad19; /* Button hover color */
+  --background-color: #ebf4c4; /* Modal background color */
+  --heading-color: var(--primary-color);
 }
 
 /* styles specific for CreateEmployeeForm */
@@ -23,39 +23,36 @@ form {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-  }
-  
-  .form-row label {
+}
+
+.form-row label {
     text-align: left;
     width: 170px; 
     margin-right: 10px;
-  }
-  
-  .form-row input,
-  .form-row .date-picker,
-  .form-row .department {
+}
+
+.form-row input,
+.form-row .date-picker,
+.form-row .department {
     flex: 1;
-  }
-  
+}
 
 h2 {
-  color: var(--heading-color); 
+    color: var(--heading-color); 
 }
 
 .form-field {
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center; /* align label & input vertically */
     width: 100%;
 }
 
-label {
+.form-field label {
     width: 28%; 
     margin-right: 20px; 
 }
 
-input[type="text"] {
-    flex: 1; /* input takes remaining width */
+.form-field input {
+    width: calc(72% - 20px);
 }
 
 .button-container {
@@ -74,5 +71,27 @@ button {
 }
 
 button:hover {
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
+.close-button:hover {
+    color: var(--heading-color); 
+}
+
+/* link style */
+.home-link {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 10px;
+}
+
+.home-link:hover {
     background-color: var(--secondary-color);
 }

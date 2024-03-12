@@ -120,3 +120,25 @@
 .custom-modal-content button:hover {
     background-color: var(--secondary-color);
 }
+
+.close-button:hover {
+  color: var(--heading-color); 
+}
+
+/* link style */
+
+.home-link {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 5px;
+  text-decoration: none;
+  margin: 10px;
+}
+
+.home-link:hover {
+  background-color: var(--secondary-color);
+}

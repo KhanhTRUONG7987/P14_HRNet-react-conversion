@@ -1,4 +1,3 @@
-// EmployeeList.js
 import React, { useEffect, useState } from "react";
 import {
   ModalProvider,
@@ -23,49 +22,32 @@ const ModalContent = ({ children }) => {
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
-  const { closeModal } = useModal();
 
   useEffect(() => {
     const storedEmployees =
       JSON.parse(localStorage.getItem("employeeData")) || [];
-    const formattedEmployees = storedEmployees.map((employee) => ({
-      ...employee,
-      startDate: Date.parse(employee.startDate), // Convert startDate to integer
-      birthday: Date.parse(employee.birthday), // Convert birthday to integer
-    }));
-    console.log(formattedEmployees);
-    setEmployees(formattedEmployees);
+    setEmployees(storedEmployees);
   }, []);
 
+  const { closeModal } = useModal();
+
   const saveEmployee = (newEmployee) => {
-    // Check if the employee already exists
-    const employeeExists = employees.some(
-      (employee) =>
-        employee.firstName === newEmployee.firstName &&
-        employee.lastName === newEmployee.lastName &&
-        employee.birthday === newEmployee.birthday
-    );
+    const storedEmployees =
+      JSON.parse(localStorage.getItem("employeeData")) || [];
+    const updatedEmployees = [...storedEmployees, newEmployee];
 
-    console.log("Employee exists:", employeeExists);
+    setEmployees(updatedEmployees);
+    localStorage.setItem("employeeData", JSON.stringify(updatedEmployees));
 
-    if (employeeExists) {
-      alert("Employee already exists!");
-      return; // Exit function if employee already exists
-    }
-
-    console.log("Adding new employee:", newEmployee);
-
-    setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
-    localStorage.setItem(
-      "employeeData",
-      JSON.stringify([...employees, newEmployee])
-    );
-    closeModal();
+    closeModal(); // Close the modal after saving the employee
   };
 
   return (
     <ModalProvider>
       <div className="container">
+        <a href="/" className="home-link">
+          Home
+        </a>
         <h2>Current Employees</h2>
         <table>
           <thead>
@@ -82,17 +64,17 @@ const EmployeeList = () => {
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee) => (
-              <tr key={employee.id}>
+            {employees.map((employee, index) => (
+              <tr key={index}>
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
-                <td>{new Date(employee.startDate).toLocaleDateString()}</td>
+                <td>{employee.startDate}</td>
                 <td>{employee.department}</td>
-                <td>{new Date(employee.birthday).toLocaleDateString()}</td>
-                <td>{employee.address.street}</td>
-                <td>{employee.address.city}</td>
-                <td>{employee.address.state}</td>
-                <td>{employee.address.zip}</td>
+                <td>{employee.birthday}</td>
+                <td>{employee.street}</td>
+                <td>{employee.city}</td>
+                <td>{employee.state}</td>
+                <td>{employee.zip}</td>
               </tr>
             ))}
           </tbody>
@@ -100,15 +82,21 @@ const EmployeeList = () => {
 
         <ModalTrigger
           closeText="Close"
+          closeTextClassName="close-button"
           modalClass="custom-modal"
           fadeDuration={300}
           fadeDelay={0.5}
-          content={<CreateEmployeeForm saveEmployee={saveEmployee} closeModal={closeModal} />}
+          content={
+            <ModalContent>
+              <CreateEmployeeForm
+                saveEmployee={saveEmployee}
+                closeModal={closeModal}
+              />
+            </ModalContent>
+          }
         >
           <button>Create Employee</button>
         </ModalTrigger>
-
-        <a href="/">Home</a>
       </div>
     </ModalProvider>
   );
