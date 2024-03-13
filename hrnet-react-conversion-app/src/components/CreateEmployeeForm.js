@@ -9,7 +9,7 @@ import { addEmployee } from "../actions/employeeActions";
 import { useNavigate } from "react-router-dom";
 import logo from "../../public/images/logo.png";
 
-const CreateEmployeeForm = ({ saveEmployee }) => {
+const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const employees = useSelector((state) => state.employees.employees);
