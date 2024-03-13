@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   ModalProvider,
   useModal,
-} from "react-modal-dktr/dist/lib/ModalContext/ModalContext.js";
-import "react-modal-dktr/dist/lib/Modal/Modal.css";
-import ModalTrigger from "react-modal-dktr/dist/lib/ModalTrigger/ModalTrigger.js";
+} from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
+import "react-modal-dk2/dist/lib/Modal/Modal.css";
+import ModalTrigger from "react-modal-dk2/dist/lib/ModalTrigger/ModalTrigger.js";
 import CreateEmployeeForm from "./CreateEmployeeForm";
 import "../styles/employeeList.css";
 
