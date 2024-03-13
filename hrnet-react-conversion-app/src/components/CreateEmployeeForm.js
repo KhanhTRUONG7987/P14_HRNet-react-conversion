@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useModal } from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addEmployee } from "../actions/employeeActions";
 import { useNavigate } from "react-router-dom";
+import logo from "../../public/images/logo.png";
 
 const CreateEmployeeForm = ({ saveEmployee }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const employees = useSelector((state) => state.employees.employees);
+  const { closeModal, closeAllModals } = useModal();
 
   const [employeeData, setEmployeeData] = useState({
     firstName: "",
@@ -47,22 +50,28 @@ const CreateEmployeeForm = ({ saveEmployee }) => {
       startDate: employeeData.startDate.toISOString(),
     };
 
-    // Dispatch the action to add an employee
-    dispatch(addEmployee(serializedEmployeeData));
-
-    // Call the saveEmployee function from EmployeeList.js
-    saveEmployee(serializedEmployeeData);
-
-    // Store the data in local storage
-    const updatedEmployees = [...employees, serializedEmployeeData];
-    localStorage.setItem("employeeData", JSON.stringify(updatedEmployees));
-
-    // Navigate to the EmployeeList page
-    navigate("/employee-list");
+    if (saveEmployee) {
+      // Call the saveEmployee function from EmployeeList.js
+      saveEmployee(serializedEmployeeData);
+      if (modalId) {
+        closeModal(modalId);
+      } else {
+        closeAllModals();
+      }
+    } else {
+      // Dispatch the action to add an employee
+      dispatch(addEmployee(serializedEmployeeData));
+      // Store the data in local storage
+      const updatedEmployees = [...employees, serializedEmployeeData];
+      localStorage.setItem("employeeData", JSON.stringify(updatedEmployees));
+      // Navigate to the EmployeeList page
+      navigate("/employee-list");
+    }
   };
 
   return (
     <div className="container">
+      <img src={logo} alt="Logo" className="logo" />
       <h2>Create Employee</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
@@ -95,6 +104,7 @@ const CreateEmployeeForm = ({ saveEmployee }) => {
             selected={employeeData.birthday}
             onChange={(date) => handleDateChange("birthday", date)}
             className="date-picker"
+            dateFormat="MM/dd/yyyy"
             required
           />
         </div>
@@ -105,6 +115,7 @@ const CreateEmployeeForm = ({ saveEmployee }) => {
             selected={employeeData.startDate}
             onChange={(date) => handleDateChange("startDate", date)}
             className="date-picker"
+            dateFormat="MM/dd/yyyy"
             required
           />
         </div>

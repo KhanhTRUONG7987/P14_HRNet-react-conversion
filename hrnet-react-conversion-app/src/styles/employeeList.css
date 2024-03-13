@@ -1,13 +1,14 @@
-/* src/styles/employeeList.css */
-
-@import './app.css';
+@import "./app.css";
 
 :root {
-  --overlay-color: #dbe7b6; 
-  --primary-color: #8ab32b; 
-  --secondary-color: #a7c432; 
-  --background-color: #f3f9d2; 
-  --heading-color: #576708; 
+  --overlay-color: #dbe7b6;
+  --primary-color: #8ab32b;
+  --secondary-color: #a7c432;
+  --background-color: #f3f9d2;
+  --heading-color: #576708;
+  --form-border-color: var(--secondary-color);
+  --form-background-color: var(--background-color);
+  --title-color: var(--primary-color);
 }
 
 .container {
@@ -16,6 +17,7 @@
   border: 1px solid var(--primary-color);
   border-radius: 5px;
   background-color: var(--overlay-color);
+  max-width: 80%;
 }
 
 .container h2 {
@@ -26,11 +28,14 @@
 .container table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
-.container th, .container td {
+.container th,
+.container td {
   padding: 10px;
   border: 1px solid var(--primary-color);
+  word-break: break-word; 
 }
 
 .container th {
@@ -60,85 +65,158 @@
   background-color: var(--secondary-color);
 }
 
+.logo {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
 /* Modal styles */
 .custom-modal {
-    background-color: var(--overlay-color);
+  background-color: var(--overlay-color);
 }
 
 .modal {
-    border: 2px solid var(--primary-color);
-    border-radius: 10px;
-    padding: 30px;
-    background-color: var(--background-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%; 
-    max-width: 600px; 
-    height: auto;
-    max-height: 90vh; 
-    overflow-y: auto; 
-    cursor: default;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  padding: 30px;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  max-width: 600px;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  cursor: default;
 }
 
 .custom-modal-content h2 {
-    color: var(--heading-color);
+  color: var(--heading-color);
 }
 
 .custom-modal-content .form-field {
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .custom-modal-content label {
-    width: 28%;
-    margin-right: 20px;
-    color: var(--primary-color);
+  width: 28%;
+  margin-right: 20px;
+  color: var(--primary-color);
 }
 
 .custom-modal-content input[type="text"] {
-    flex: 1;
+  flex: 1;
 }
 
 .custom-modal-content .button-container {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .custom-modal-content button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .custom-modal-content button:hover {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
 .close-button:hover {
-  color: var(--heading-color); 
+  color: var(--heading-color);
 }
 
 /* link style */
 
 .home-link {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  position: static;
+  display: block;
   padding: 10px 20px;
   background-color: var(--primary-color);
   color: #fff;
   border-radius: 5px;
   text-decoration: none;
-  margin: 10px;
+  margin-bottom: 20px;
 }
 
 .home-link:hover {
   background-color: var(--secondary-color);
+}
+
+/* Styles for the search bar */
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input[type="text"] {
+  padding: 8px;
+  width: 100%; 
+  max-width: 300px; 
+  border-radius: 5px;
+  border: 1px solid var(--form-border-color);
+  font-size: 16px;
+  color: var(--title-color);
+}
+
+/* Styles for the pagination */
+.pagination {
+  margin-top: 20px;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid var(--form-border-color);
+  background-color: var(--form-background-color);
+  color: var(--title-color);
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: var(--secondary-color);
+}
+
+.pagination .active button {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  table {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  tbody {
+    display: block;
+  }
+
+  tr {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid var(--primary-color); 
+    margin-bottom: 10px; 
+  }
+
 }

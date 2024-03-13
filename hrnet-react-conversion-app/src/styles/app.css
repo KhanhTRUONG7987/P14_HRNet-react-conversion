@@ -1,74 +1,80 @@
-@import '../index.css';
+@import "../index.css";
 
 :root {
-    /* Define variable colors */
-    --title-color: var(--primary-color);
-    --label-color: var(--secondary-color);
-    --button-background: var(--primary-color);
-    --button-text-color: white;
-    --form-border-color: var(--secondary-color); 
-    --form-background-color: var(--background-color); 
+  /* Define variable colors */
+  --title-color: var(--primary-color);
+  --label-color: var(--secondary-color);
+  --button-background: var(--primary-color);
+  --button-text-color: white;
+  --form-border-color: var(--secondary-color);
+  --form-background-color: var(--background-color);
 }
 
 .title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--title-color); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--title-color);
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 form {
-    border: 2px solid var(--form-border-color); 
-    border-radius: 10px; 
-    padding: 20px; 
-    background-color: var(--form-background-color);
+  border: 2px solid var(--form-border-color);
+  border-radius: 10px;
+  padding: 20px;
+  background-color: var(--form-background-color);
 }
 
 label {
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 10px;
-    color: var(--title-color); 
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+  color: var(--title-color);
 }
 
 .address {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .content {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .form-container {
-    width: 45%;
+  width: 45%;
 }
 
 .list-container {
-    width: 50%;
+  width: 50%;
 }
 
 .form-field {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .save-button {
-    display: block;
-    margin-top: 1rem;
-    background-color: var(--button-background); 
-    color: var(--button-text-color); 
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+  display: block;
+  margin-top: 1rem;
+  background-color: var(--button-background);
+  color: var(--button-text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .save-button:hover {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
 }

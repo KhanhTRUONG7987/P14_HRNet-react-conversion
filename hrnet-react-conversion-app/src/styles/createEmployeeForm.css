@@ -1,97 +1,67 @@
-@import './app.css';
+/* src/styles/createEmployeeForm.css */
+@import "./app.css";
 
-:root {
-  --overlay-color: #1b2102d2;
-  --primary-color: #6e870b; /* Button and overlay color */
-  --secondary-color: #93ad19; /* Button hover color */
-  --background-color: #ebf4c4; /* Modal background color */
-  --heading-color: var(--primary-color);
+.container {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  background-color: var(--overlay-color);
+  max-width: 80%;
 }
 
-/* styles specific for CreateEmployeeForm */
-form {
-    border: 2px solid var(--primary-color); 
-    border-radius: 10px; 
-    padding: 30px; 
-    background-color: var(--background-color); 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.logo {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
 }
 
 .form-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap; 
 }
 
 .form-row label {
-    text-align: left;
-    width: 170px; 
-    margin-right: 10px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 5px;
 }
 
 .form-row input,
 .form-row .date-picker,
 .form-row .department {
-    flex: 1;
+  flex: 1;
+  margin-right: 0; 
 }
 
 h2 {
-    color: var(--heading-color); 
-}
-
-.form-field {
-    margin-bottom: 1rem;
-    width: 100%;
-}
-
-.form-field label {
-    width: 28%; 
-    margin-right: 20px; 
-}
-
-.form-field input {
-    width: calc(72% - 20px);
-}
-
-.button-container {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: flex-end; 
-    width: 100%;
+  color: var(--heading-color);
+  margin-bottom: 20px;
 }
 
 button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: var(--secondary-color);
-    border-radius: 5px;
+  background-color: var(--secondary-color);
 }
 
-.close-button:hover {
-    color: var(--heading-color); 
-}
+/* Adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
 
-/* link style */
-.home-link {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: #fff;
-    border-radius: 5px;
-    text-decoration: none;
-    margin: 10px;
-}
-
-.home-link:hover {
-    background-color: var(--secondary-color);
+  .form-row label {
+    width: 100%;
+  }
 }
