@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addEmployee } from "../actions/employeeActions";
 import { useNavigate } from "react-router-dom";
 
-const CreateEmployeeForm = ({ saveEmployee, closeModal }) => {
+const CreateEmployeeForm = ({ saveEmployee }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const employees = useSelector((state) => state.employees.employees);
@@ -50,15 +50,12 @@ const CreateEmployeeForm = ({ saveEmployee, closeModal }) => {
     // Dispatch the action to add an employee
     dispatch(addEmployee(serializedEmployeeData));
 
-    // Call the saveEmployee function
+    // Call the saveEmployee function from EmployeeList.js
     saveEmployee(serializedEmployeeData);
 
     // Store the data in local storage
     const updatedEmployees = [...employees, serializedEmployeeData];
     localStorage.setItem("employeeData", JSON.stringify(updatedEmployees));
-
-    // Close the modal
-    closeModal();
 
     // Navigate to the EmployeeList page
     navigate("/employee-list");

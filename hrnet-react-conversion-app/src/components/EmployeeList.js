@@ -10,6 +10,7 @@ import "../styles/employeeList.css";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
+  const { closeModal } = useModal();
 
   useEffect(() => {
     const storedEmployees =
@@ -17,9 +18,8 @@ const EmployeeList = () => {
     setEmployees(storedEmployees);
   }, []);
 
-  const { closeModal } = useModal();
-
-  const saveEmployee = (newEmployee) => {
+  // Define the saveEmployee function to be passed to CreateEmployeeForm
+  const saveEmployee = (newEmployee, id) => {
     const storedEmployees =
       JSON.parse(localStorage.getItem("employeeData")) || [];
     const updatedEmployees = [...storedEmployees, newEmployee];
@@ -27,7 +27,7 @@ const EmployeeList = () => {
     setEmployees(updatedEmployees);
     localStorage.setItem("employeeData", JSON.stringify(updatedEmployees));
 
-    closeModal(); // Close the modal after saving the employee
+    closeModal(id); 
   };
 
   return (
@@ -68,7 +68,9 @@ const EmployeeList = () => {
           </tbody>
         </table>
 
+        {/* Pass saveEmployee function to CreateEmployeeForm */}
         <ModalTrigger
+          id={`modal-${Date.now()}`}
           closeText="Close"
           closeTextClassName="close-button"
           modalClass="custom-modal"
@@ -77,8 +79,7 @@ const EmployeeList = () => {
           buttonText="Create employee"
           content={
             <CreateEmployeeForm
-              saveEmployee={saveEmployee}
-              closeModal={closeModal}
+              saveEmployee={(newEmployee, id) => saveEmployee(newEmployee, id)}
             />
           }
         ></ModalTrigger>
