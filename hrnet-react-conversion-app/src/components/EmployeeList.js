@@ -2,23 +2,11 @@ import React, { useEffect, useState } from "react";
 import {
   ModalProvider,
   useModal,
-} from "react-modal-dkt/dist/lib/ModalContext/ModalContext.js";
-import "react-modal-dkt/dist/lib/Modal/Modal.css";
-import ModalTrigger from "react-modal-dkt/dist/lib/ModalTrigger/ModalTrigger.js";
+} from "react-modal-dktr/dist/lib/ModalContext/ModalContext.js";
+import "react-modal-dktr/dist/lib/Modal/Modal.css";
+import ModalTrigger from "react-modal-dktr/dist/lib/ModalTrigger/ModalTrigger.js";
 import CreateEmployeeForm from "./CreateEmployeeForm";
 import "../styles/employeeList.css";
-
-const ModalContent = ({ children }) => {
-  const handleClick = (e) => {
-    e.stopPropagation(); // Prevent click event from propagating to parent (modal)
-  };
-
-  return (
-    <div className="modal" onClick={handleClick}>
-      {children}
-    </div>
-  );
-};
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -86,17 +74,14 @@ const EmployeeList = () => {
           modalClass="custom-modal"
           fadeDuration={300}
           fadeDelay={0.5}
+          buttonText="Create employee"
           content={
-            <ModalContent>
-              <CreateEmployeeForm
-                saveEmployee={saveEmployee}
-                closeModal={closeModal}
-              />
-            </ModalContent>
+            <CreateEmployeeForm
+              saveEmployee={saveEmployee}
+              closeModal={closeModal}
+            />
           }
-        >
-          <button>Create Employee</button>
-        </ModalTrigger>
+        ></ModalTrigger>
       </div>
     </ModalProvider>
   );

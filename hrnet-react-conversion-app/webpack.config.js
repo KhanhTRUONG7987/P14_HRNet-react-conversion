@@ -11,7 +11,7 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules\/(?!(react-modal-dkt)\/).*/,
+        exclude: /node_modules\/(?!(react-modal-dktr)\/).*/,
         use: {
           loader: "babel-loader",
           options: {
