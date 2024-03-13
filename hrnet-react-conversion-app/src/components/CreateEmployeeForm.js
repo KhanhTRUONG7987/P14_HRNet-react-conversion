@@ -26,14 +26,28 @@ const CreateEmployeeForm = ({ saveEmployee }) => {
     zip: "",
     department: "",
   });
+  const [zipError, setZipError] = useState(""); // State to store zip code error message
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEmployeeData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  
+    // Regular expression to match the desired zip code format (e.g., 12345 or 12345-6789)
+    const zipRegex = /^\d{5}(?:-\d{4})?$/;
+  
+    // Check if the entered zip code matches the desired format
+    if (name === "zip" && !zipRegex.test(value)) {
+      // If the zip code format is incorrect, set the error message
+      setZipError("Invalid zip code format. Please enter a valid zip code.");
+    } else {
+      // Clear the error message if the zip code format is valid
+      setZipError("");
+  
+      setEmployeeData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };  
 
   const handleDateChange = (field, date) => {
     setEmployeeData((prevState) => ({
@@ -44,6 +58,12 @@ const CreateEmployeeForm = ({ saveEmployee }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // If there is a zip code error, prevent form submission
+    if (zipError) {
+      return;
+    }
+
     const serializedEmployeeData = {
       ...employeeData,
       birthday: employeeData.birthday.toISOString(),
@@ -166,6 +186,7 @@ const CreateEmployeeForm = ({ saveEmployee }) => {
             name="zip"
             required
           />
+          {zipError && <p className="error-message">{zipError}</p>}
         </div>
 
         <div className="form-row">
