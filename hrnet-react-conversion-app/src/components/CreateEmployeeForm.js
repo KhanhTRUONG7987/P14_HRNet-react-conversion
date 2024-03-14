@@ -4,18 +4,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useModal } from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import { useDispatch, useSelector } from "react-redux";
-import { addEmployee } from "../actions/employeeActions";
+import { useDispatch } from "react-redux";
+import { addEmployee } from "../actions/employeeActions";  
 import { useNavigate } from "react-router-dom";
 import logo from "../../public/images/logo.png";
+import { v4 as uuidv4 } from 'uuid';
+
+const zipRegex = /^\d{5}(?:-\d{4})?$/;
 
 const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const employees = useSelector((state) => state.employees.employees);
   const { closeModal, closeAllModals } = useModal();
 
   const [employeeData, setEmployeeData] = useState({
+    id: uuidv4(),
     firstName: "",
     lastName: "",
     birthday: null,
@@ -26,48 +29,39 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
     zip: "",
     department: "",
   });
-  const [zipError, setZipError] = useState(""); // State to store zip code error message
+
+  const [zipError, setZipError] = useState(""); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-    // Regular expression to match the desired zip code format (e.g., 12345 or 12345-6789)
-    const zipRegex = /^\d{5}(?:-\d{4})?$/;
-  
-    // Check if the entered zip code matches the desired format
-    if (name === "zip" && !zipRegex.test(value)) {
-      // If the zip code format is incorrect, set the error message
-      setZipError("Invalid zip code format. Please enter a valid zip code.");
-    } else {
-      // Clear the error message if the zip code format is valid
-      setZipError("");
-  
-      setEmployeeData((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-  };  
 
-  const handleDateChange = (field, date) => {
     setEmployeeData((prevState) => ({
       ...prevState,
-      [field]: date,
+      [name]: value,
+    }));
+  };
+
+  const handleDateChange = (field, date) => {
+    const formattedDate = date.toISOString();
+    setEmployeeData((prevState) => ({
+      ...prevState,
+      [field]: formattedDate,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // If there is a zip code error, prevent form submission
-    if (zipError) {
+    // Validate the ZIP code format
+    if (!zipRegex.test(employeeData.zip)) {
+      setZipError("Invalid zip code format. Please enter a valid zip code.");
       return;
+    } else {
+      setZipError("");
     }
 
     const serializedEmployeeData = {
       ...employeeData,
-      birthday: employeeData.birthday.toISOString(),
-      startDate: employeeData.startDate.toISOString(),
     };
 
     if (saveEmployee) {
@@ -81,9 +75,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
     } else {
       // Dispatch the action to add an employee
       dispatch(addEmployee(serializedEmployeeData));
-      // Store the data in local storage
-      const updatedEmployees = [...employees, serializedEmployeeData];
-      localStorage.setItem("employeeData", JSON.stringify(updatedEmployees));
+
       // Navigate to the EmployeeList page
       navigate("/employee-list");
     }
@@ -125,6 +117,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
             onChange={(date) => handleDateChange("birthday", date)}
             className="date-picker"
             dateFormat="MM/dd/yyyy"
+            maxDate={new Date()}
             required
           />
         </div>
@@ -186,7 +179,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
             name="zip"
             required
           />
-          {zipError && <p className="error-message">{zipError}</p>}
+          {zipError && <p style={{ color: "red" }}>{zipError}</p>}
         </div>
 
         <div className="form-row">
@@ -205,7 +198,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
           />
         </div>
 
-        <button type="submit">Save</button>
+        <button className="save-button" type="submit">Save</button>
       </form>
     </div>
   );

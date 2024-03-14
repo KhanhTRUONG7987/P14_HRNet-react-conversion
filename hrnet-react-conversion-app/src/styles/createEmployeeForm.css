@@ -55,7 +55,10 @@ button:hover {
   background-color: var(--secondary-color);
 }
 
-/* Adjustments for smaller screens */
+.save-button {
+  margin-top: 20px; 
+}
+
 @media screen and (max-width: 768px) {
   .container {
     padding: 10px;
