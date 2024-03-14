@@ -14,6 +14,9 @@ import { v4 as uuidv4 } from "uuid";
 const zipRegex = /^\d{5}(?:-\d{4})?$/;
 
 const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
+  useEffect(() => {
+    document.title = "HRnet - Create Employee";
+  }, []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal, closeAllModals } = useModal();
@@ -107,8 +110,10 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
   return (
     <div className="container">
       <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={metaDescription} />
+        <meta charSet="utf-8" />
+        <title>HRnet - Create Employee</title>
+        <meta name="description" content="Create Employee Form for HRnet" />
+        <meta name="keywords" content="HRnet, employee, create, form, firstName, lastName, birthday, startDate, street, city, state, zip, department" />
       </Helmet>
       <img src={logo} alt="Logo" className="logo" />
       <h2>Create Employee</h2>
