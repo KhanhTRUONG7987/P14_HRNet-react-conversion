@@ -1,84 +1,150 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { ModalProvider, useModal } from 'react-modal-dk2/dist/lib/ModalContext/ModalContext.js';
-import 'react-modal-dk2/dist/lib/Modal/Modal.css';
-import ModalTrigger from 'react-modal-dk2/dist/lib/ModalTrigger/ModalTrigger.js';
-import CreateEmployeeForm from './CreateEmployeeForm';
-import { addEmployee, removeEmployee } from '../actions/employeeActions'; 
-import '../styles/employeeList.css';
-import logo from '../../public/images/logo.png';
-import { useTable, useSortBy, usePagination } from 'react-table';
-import { format, isValid } from 'date-fns'; 
+import React, { useState, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  ModalProvider,
+  useModal,
+} from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
+import "react-modal-dk2/dist/lib/Modal/Modal.css";
+import ModalTrigger from "react-modal-dk2/dist/lib/ModalTrigger/ModalTrigger.js";
+import CreateEmployeeForm from "./CreateEmployeeForm";
+import { addEmployee, removeEmployee } from "../actions/employeeActions";
+import "../styles/employeeList.css";
+import logo from "../../public/images/logo.png";
+import { useTable, usePagination } from "react-table";
+import { isValid } from "date-fns";
 
 const EmployeeList = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  // State variables
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortKey, setSortKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const modalId = `modal-${Date.now()}`;
   const employees = useSelector((state) => state.employees.employees);
 
+  // Memoized filtered employees based on search query and sorting
+  const filteredEmployees = useMemo(() => {
+    // Sort employees based on sorting state
+    const sortedEmployees = [...employees].sort((a, b) => {
+      if (sortKey) {
+        if (a[sortKey] < b[sortKey]) return sortOrder === "asc" ? -1 : 1;
+        if (a[sortKey] > b[sortKey]) return sortOrder === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+
+    // Filter employees based on search query
+    return sortedEmployees.filter((employee) => {
+      const fullName = `${employee.firstName} ${employee.lastName}`;
+      return fullName.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+  }, [employees, searchQuery, sortKey, sortOrder]);
+
+  // Handler for search input change
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const columns = React.useMemo(
+  // Handler for sorting change
+  const handleSort = (key) => {
+    const sortableColumns = [
+      "firstName",
+      "lastName",
+      "startDate",
+      "department",
+      "birthday",
+    ];
+    if (sortableColumns.includes(key)) {
+      if (key === sortKey) {
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+      } else {
+        setSortKey(key);
+        setSortOrder("asc");
+      }
+    }
+  };
+
+  // Handler for removing an employee
+  const handleRemoveEmployee = (employeeId) => {
+    dispatch(removeEmployee(employeeId));
+  };
+
+  // Handler for saving a new employee
+  const saveEmployee = (newEmployee) => {
+    if (
+      newEmployee &&
+      isValid(new Date(newEmployee.birthday)) &&
+      isValid(new Date(newEmployee.startDate))
+    ) {
+      const formattedEmployee = {
+        ...newEmployee,
+        birthday: new Date(newEmployee.birthday).toISOString(),
+        startDate: new Date(newEmployee.startDate).toISOString(),
+      };
+
+      dispatch(addEmployee(formattedEmployee));
+      closeModal(modalId);
+    } else {
+      console.error("Invalid new employee object:", newEmployee);
+    }
+  };
+
+  // Define table columns
+  const columns = useMemo(
     () => [
       {
-        Header: 'First Name',
-        accessor: 'firstName',
+        Header: "First Name",
+        accessor: "firstName",
       },
       {
-        Header: 'Last Name',
-        accessor: 'lastName',
+        Header: "Last Name",
+        accessor: "lastName",
       },
       {
-        Header: 'Start Date',
-        accessor: 'startDate',
-        Cell: ({ value }) => {
-          if (!value || !isValid(new Date(value))) return ''; 
-          return format(new Date(value), 'MM/dd/yyyy');
-        },
+        Header: "Start Date",
+        accessor: "startDate",
+        Cell: ({ value }) => new Date(value).toLocaleDateString(),
       },
       {
-        Header: 'Department',
-        accessor: 'department',
+        Header: "Department",
+        accessor: "department",
       },
       {
-        Header: 'Date of Birth',
-        accessor: 'birthday',
-        Cell: ({ value }) => {
-          if (!value || !isValid(new Date(value))) return '';
-          return format(new Date(value), 'MM/dd/yyyy');
-        },
+        Header: "Date of Birth",
+        accessor: "birthday",
+        Cell: ({ value }) => new Date(value).toLocaleDateString(),
       },
       {
-        Header: 'Street',
-        accessor: 'street',
+        Header: "Street",
+        accessor: "street",
       },
       {
-        Header: 'City',
-        accessor: 'city',
+        Header: "City",
+        accessor: "city",
       },
       {
-        Header: 'State',
-        accessor: 'state',
+        Header: "State",
+        accessor: "state",
       },
       {
-        Header: 'Zip Code',
-        accessor: 'zip',
+        Header: "Zip Code",
+        accessor: "zip",
       },
       {
-        Header: 'X',
-        accessor: 'remove', 
+        Header: "X",
+        accessor: "remove",
         Cell: ({ row }) => (
-          <button onClick={() => handleRemoveEmployee(row.original.id)}>X</button>
-        )
+          <button onClick={() => handleRemoveEmployee(row.original.id)}>
+            X
+          </button>
+        ),
       },
     ],
     []
   );
-  
 
+  // React-table hook for table functionality
   const {
     getTableProps,
     getTableBodyProps,
@@ -93,38 +159,14 @@ const EmployeeList = () => {
     state: { pageIndex },
   } = useTable(
     {
-      columns,
-      data: employees,
+      columns: columns,
+      data: filteredEmployees,
       initialState: { pageIndex: 0 },
     },
-    useSortBy,
     usePagination
   );
 
-  const handleRemoveEmployee = (employeeId) => {
-    dispatch(removeEmployee(employeeId));
-  };
-
-  const saveEmployee = (newEmployee) => {
-    if (
-      newEmployee &&
-      isValid(new Date(newEmployee.birthday)) &&
-      isValid(new Date(newEmployee.startDate))
-    ) {
-      const formattedEmployee = {
-        ...newEmployee,
-        birthday: new Date(newEmployee.birthday).toISOString(),
-        startDate: new Date(newEmployee.startDate).toISOString(),
-      };
-  
-      dispatch(addEmployee(formattedEmployee));
-      closeModal(modalId);
-    } else {
-      console.error("Invalid new employee object:", newEmployee);
-    }
-  };  
-  
-
+  // Render UI
   return (
     <ModalProvider>
       <div className="container">
@@ -141,27 +183,46 @@ const EmployeeList = () => {
         <h2>Current Employees</h2>
         <table {...getTableProps()}>
           <thead>
-            {headerGroups.map(headerGroup => (
+            {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    {column.render('Header')}
-                    <span>
-                      {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                    </span>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps()}
+                    onClick={() => handleSort(column.id)} 
+                    style={{ cursor: "pointer" }} 
+                  >
+                    <div>
+                      {column.render("Header")}
+                      {/* Conditionally render sorting symbols */}
+                      {[
+                        "firstName",
+                        "lastName",
+                        "startDate",
+                        "department",
+                        "birthday",
+                      ].includes(column.id) &&
+                        employees.length > 1 && (
+                          <span className="sort-symbol">
+                            {sortKey === column.id && sortOrder === "asc"
+                              ? " ▲"
+                              : " ▼"}
+                          </span>
+                        )}
+                    </div>
                   </th>
                 ))}
               </tr>
             ))}
           </thead>
+
           <tbody {...getTableBodyProps()}>
-            {page.map(row => {
+            {page.map((row) => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
+                  {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                     );
                   })}
                 </tr>
@@ -172,15 +233,15 @@ const EmployeeList = () => {
         <ul className="pagination">
           <button onClick={() => previousPage()} disabled={!canPreviousPage}>
             Previous
-          </button>{' '}
+          </button>{" "}
           <button onClick={() => nextPage()} disabled={!canNextPage}>
             Next
-          </button>{' '}
+          </button>{" "}
           <span>
-            Page{' '}
+            Page{" "}
             <strong>
               {pageIndex + 1} of {pageOptions.length}
-            </strong>{' '}
+            </strong>{" "}
           </span>
         </ul>
 
@@ -192,7 +253,9 @@ const EmployeeList = () => {
           fadeDuration={300}
           fadeDelay={0.5}
           buttonText="Create employee"
-          content={<CreateEmployeeForm modalId={modalId} saveEmployee={saveEmployee} />}
+          content={
+            <CreateEmployeeForm modalId={modalId} saveEmployee={saveEmployee} />
+          }
         ></ModalTrigger>
       </div>
     </ModalProvider>

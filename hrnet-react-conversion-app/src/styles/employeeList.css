@@ -30,6 +30,10 @@
   border-collapse: collapse;
 }
 
+.container th {
+  font-size: small;
+}
+
 .container th,
 .container td {
   padding: 10px;
@@ -38,6 +42,7 @@
   width: calc(100% / 10); /* Divide the width equally among 10 columns */
   text-align: center;
   justify-content: center;
+  position: relative; 
 }
 
 .container th {
@@ -70,6 +75,17 @@
   max-width: 100%;
   height: auto;
   margin-bottom: 20px;
+}
+
+/* Updated sorting symbol styles */
+.sort-symbol {
+  margin-left: 5px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 4px; 
+  color: var(--secondary-color);
+  font-size: 14px;
 }
 
 /* Modal styles */
@@ -242,5 +258,10 @@
   .container button.remove-button {
     padding: 5px 8px;
     font-size: 12px;
+  }
+
+  /* Hide sorting symbols on smaller screens */
+  .sort-symbol {
+    display: none;
   }
 }
