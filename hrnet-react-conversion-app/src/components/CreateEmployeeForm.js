@@ -5,10 +5,10 @@ import { useModal } from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js"
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import { useDispatch } from "react-redux";
-import { addEmployee } from "../actions/employeeActions";  
+import { addEmployee } from "../actions/employeeActions";
 import { useNavigate } from "react-router-dom";
 import logo from "../../public/images/logo.png";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const zipRegex = /^\d{5}(?:-\d{4})?$/;
 
@@ -30,7 +30,8 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
     department: "",
   });
 
-  const [zipError, setZipError] = useState(""); 
+  const [birthdayError, setBirthdayError] = useState("");
+  const [zipError, setZipError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,6 +53,26 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Calculate age based on the selected birthday
+    const birthDate = new Date(employeeData.birthday);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    // Check if the employee is at least 18 years old
+    if (age < 18) {
+      setBirthdayError("Employee must be at least 18 years old.");
+      return;
+    } else {
+      setBirthdayError(""); // Reset birthday error if age is 18 or older
+    }
+
     // Validate the ZIP code format
     if (!zipRegex.test(employeeData.zip)) {
       setZipError("Invalid zip code format. Please enter a valid zip code.");
@@ -60,6 +81,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
       setZipError("");
     }
 
+    // If the employee is at least 18 years old, zip is ok, proceed with saving the employee data
     const serializedEmployeeData = {
       ...employeeData,
     };
@@ -120,6 +142,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
             maxDate={new Date()}
             required
           />
+          {birthdayError && <p style={{ color: "red" }}>{birthdayError}</p>}{" "}
         </div>
 
         <div className="form-row">
@@ -198,7 +221,9 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
           />
         </div>
 
-        <button className="save-button" type="submit">Save</button>
+        <button className="save-button" type="submit">
+          Save
+        </button>
       </form>
     </div>
   );
