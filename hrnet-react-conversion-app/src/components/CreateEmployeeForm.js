@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useModal } from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
@@ -105,6 +106,10 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
 
   return (
     <div className="container">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+      </Helmet>
       <img src={logo} alt="Logo" className="logo" />
       <h2>Create Employee</h2>
       <form onSubmit={handleSubmit}>

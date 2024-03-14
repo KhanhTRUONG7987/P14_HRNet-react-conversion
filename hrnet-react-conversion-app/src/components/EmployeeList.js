@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ModalProvider,
@@ -170,6 +171,10 @@ const EmployeeList = () => {
   return (
     <ModalProvider>
       <div className="container">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
+      </Helmet>
         <img src={logo} alt="Logo" className="logo" />
         <a href="/" className="home-link">
           Home
