@@ -106,11 +106,15 @@ const EmployeeList = () => {
   };
 
   const saveEmployee = (newEmployee) => {
-    if (newEmployee && newEmployee.birthday && newEmployee.startDate) {
+    if (
+      newEmployee &&
+      isValid(new Date(newEmployee.birthday)) &&
+      isValid(new Date(newEmployee.startDate))
+    ) {
       const formattedEmployee = {
         ...newEmployee,
-        birthday: newEmployee.birthday.toISOString(),
-        startDate: newEmployee.startDate.toISOString(),
+        birthday: new Date(newEmployee.birthday).toISOString(),
+        startDate: new Date(newEmployee.startDate).toISOString(),
       };
   
       dispatch(addEmployee(formattedEmployee));
@@ -119,6 +123,7 @@ const EmployeeList = () => {
       console.error("Invalid new employee object:", newEmployee);
     }
   };  
+  
 
   return (
     <ModalProvider>
