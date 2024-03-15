@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useModal } from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addEmployee } from "../actions/employeeActions";
 import { useNavigate } from "react-router-dom";
 import logo from "../../public/images/logo.png";
@@ -21,6 +21,8 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
   const navigate = useNavigate();
   const { closeModal, closeAllModals } = useModal();
 
+  const existingEmployees = useSelector((state) => state.employees.employees);
+
   const [employeeData, setEmployeeData] = useState({
     id: uuidv4(),
     firstName: "",
@@ -34,6 +36,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
     department: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
   const [birthdayError, setBirthdayError] = useState("");
   const [zipError, setZipError] = useState("");
 
@@ -57,6 +60,24 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Check for duplicate employee
+    const isDuplicate = existingEmployees.some(
+      (employee) =>
+        employee.firstName === employeeData.firstName &&
+        employee.lastName === employeeData.lastName &&
+        new Date(employee.birthday).toDateString() ===
+          new Date(employeeData.birthday).toDateString()
+    );
+
+    if (isDuplicate) {
+      setErrorMessage(
+        "Duplicate employee found. Please enter a unique employee."
+      );
+      return;
+    } else {
+      setErrorMessage("");
+    }
+
     // Calculate age based on the selected birthday
     const birthDate = new Date(employeeData.birthday);
     const today = new Date();
@@ -74,7 +95,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
       setBirthdayError("Employee must be at least 18 years old.");
       return;
     } else {
-      setBirthdayError(""); // Reset birthday error if age is 18 or older
+      setBirthdayError(""); // Reset error message if age is 18 or older
     }
 
     // Validate the ZIP code format
@@ -85,10 +106,8 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
       setZipError("");
     }
 
-    // If the employee is at least 18 years old, zip is ok, proceed with saving the employee data
-    const serializedEmployeeData = {
-      ...employeeData,
-    };
+    // If all validations pass, proceed with saving the employee data
+    const serializedEmployeeData = { ...employeeData };
 
     if (saveEmployee) {
       // Call the saveEmployee function from EmployeeList.js
@@ -113,7 +132,10 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
         <meta charSet="utf-8" />
         <title>HRnet - Create Employee</title>
         <meta name="description" content="Create Employee Form for HRnet" />
-        <meta name="keywords" content="HRnet, employee, create, form, firstName, lastName, birthday, startDate, street, city, state, zip, department" />
+        <meta
+          name="keywords"
+          content="HRnet, employee, create, form, firstName, lastName, birthday, startDate, street, city, state, zip, department"
+        />
       </Helmet>
       <img src={logo} alt="Logo" className="logo" />
       <h2>Create Employee</h2>
@@ -230,6 +252,8 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
             placeholder="Select an option"
           />
         </div>
+
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
         <button className="save-button" type="submit">
           Save
