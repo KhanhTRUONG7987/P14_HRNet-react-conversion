@@ -95,7 +95,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
       setBirthdayError("Employee must be at least 18 years old.");
       return;
     } else {
-      setBirthdayError(""); // Reset error message if age is 18 or older
+      setBirthdayError("");
     }
 
     // Validate the ZIP code format
@@ -121,7 +121,6 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
       // Dispatch the action to add an employee
       dispatch(addEmployee(serializedEmployeeData));
 
-      // Navigate to the EmployeeList page
       navigate("/employee-list");
     }
   };
