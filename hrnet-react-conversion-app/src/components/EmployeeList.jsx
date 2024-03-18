@@ -1,22 +1,22 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ModalProvider,
   useModal,
-} from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
+} from "react-modal-dk2/dist/lib/ModalContext/ModalContext";
 import "react-modal-dk2/dist/lib/Modal/Modal.css";
-import ModalTrigger from "react-modal-dk2/dist/lib/ModalTrigger/ModalTrigger.js";
+import ModalTrigger from "react-modal-dk2/dist/lib/ModalTrigger/ModalTrigger";
 import CreateEmployeeForm from "./CreateEmployeeForm";
 import { addEmployee, removeEmployee } from "../actions/employeeActions";
 import "../styles/employeeList.css";
-import logo from "../../public/images/logo.png";
+import logo from "../assets/logo.png";
 import { useTable, usePagination } from "react-table";
 import { isValid } from "date-fns";
 
 const EmployeeList = () => {
   useEffect(() => {
-    document.title = "HRnet - Employee List"; 
+    document.title = "HRnet - Employee List";
   }, []);
 
   // State variables
@@ -175,12 +175,12 @@ const EmployeeList = () => {
   return (
     <ModalProvider>
       <div className="container">
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>HRnet - Employee List</title> 
-        <meta name="description" content="List of Employees in HRnet" />
-        <meta name="keywords" content="HRnet, employee, list, department" />
-      </Helmet>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>HRnet - Employee List</title>
+          <meta name="description" content="List of Employees in HRnet" />
+          <meta name="keywords" content="HRnet, employee, list, department" />
+        </Helmet>
         <img src={logo} alt="Logo" className="logo" />
         <a href="/" className="home-link">
           Home
@@ -199,8 +199,8 @@ const EmployeeList = () => {
                 {headerGroup.headers.map((column) => (
                   <th
                     {...column.getHeaderProps()}
-                    onClick={() => handleSort(column.id)} 
-                    style={{ cursor: "pointer" }} 
+                    onClick={() => handleSort(column.id)}
+                    style={{ cursor: "pointer" }}
                   >
                     <div>
                       {column.render("Header")}
@@ -231,7 +231,7 @@ const EmployeeList = () => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
+                  {row.cells.map((cell, _i) => {
                     return (
                       <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                     );

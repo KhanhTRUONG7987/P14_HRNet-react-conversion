@@ -1,7 +1,9 @@
+/* eslint-disable no-case-declarations */
 // src/reducers/employeeReducer.js
 
 const getInitialEmployees = () => {
-  const storedEmployees = JSON.parse(localStorage.getItem("employeeData")) || [];
+  const storedEmployees =
+    JSON.parse(localStorage.getItem("employeeData")) || [];
   const formattedEmployees = storedEmployees.map((employee) => ({
     ...employee,
     birthday: employee.birthday,
@@ -27,7 +29,10 @@ const employeeReducer = (state = initialState, action) => {
       const updatedEmployeesRemove = state.employees.filter(
         (employee) => employee.id !== action.payload
       );
-      localStorage.setItem("employeeData", JSON.stringify(updatedEmployeesRemove));
+      localStorage.setItem(
+        "employeeData",
+        JSON.stringify(updatedEmployeesRemove)
+      );
       return {
         ...state,
         employees: updatedEmployeesRemove,

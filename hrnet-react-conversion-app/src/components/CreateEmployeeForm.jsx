@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useModal } from "react-modal-dk2/dist/lib/ModalContext/ModalContext.js";
+import { useModal } from "react-modal-dk2/dist/lib/ModalContext/ModalContext";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addEmployee } from "../actions/employeeActions";
 import { useNavigate } from "react-router-dom";
-import logo from "../../public/images/logo.png";
+import logo from "../assets/logo.png";
 import { v4 as uuidv4 } from "uuid";
 
 const zipRegex = /^\d{5}(?:-\d{4})?$/;
@@ -81,7 +81,7 @@ const CreateEmployeeForm = ({ modalId, saveEmployee }) => {
     // Calculate age based on the selected birthday
     const birthDate = new Date(employeeData.birthday);
     const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
+    let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
     if (
       monthDiff < 0 ||
