@@ -5,12 +5,25 @@
   "type": "module",
   "homepage": "https://khanhtruong7987.github.io/P14_HRNet-react-conversion/",
   "scripts": {
+<<<<<<< HEAD
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "vite deploy"
   },
+=======
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "postdeploy": "echo 'Deployment complete!'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://KhanhTRUONG7987.github.io/P14_HRNet-react-conversion",
+>>>>>>> 03345d2ce9a4fde7add4847b1841839480952179
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
     "date-fns": "^3.6.0",
@@ -29,6 +42,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@rollup/plugin-commonjs": "^25.0.7",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
@@ -39,5 +53,21 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "gh-pages": "^6.1.1",
     "vite": "^5.1.6"
+=======
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.23.3",
+    "@types/react-datepicker": "^6.0.3",
+    "babel-loader": "^9.1.3",
+    "compression-webpack-plugin": "^11.1.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^6.10.0",
+    "file-loader": "^6.2.0",
+    "style-loader": "^3.3.4",
+    "terser-webpack-plugin": "^5.3.10",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.3"
+>>>>>>> 03345d2ce9a4fde7add4847b1841839480952179
   }
 }
