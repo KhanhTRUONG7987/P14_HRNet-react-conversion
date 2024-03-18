@@ -6,7 +6,7 @@
   "homepage": "https://khanhtruong7987.github.io/P14_HRNet-react-conversion/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "rm -rf dist && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
